@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="kk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="../logo-transparent.png" type="image/x-icon">
+    <title>Әліппе - Kazakh Sign Language</title>
+    <link rel="stylesheet" href="../styles.css">
+
+    <style>
+        /* Основные стили */
+        .video-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 20px;
+        }
+        .video-item {
+            position: relative;
+            cursor: pointer;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            overflow: hidden;
+            text-align: center;
+        }
+        .video-item img {
+            width: 100%;
+            display: block;
+        }
+        .video-item .word {
+            padding: 10px;
+            background-color: #fff;
+        }
+
+        /* Стили для всплывающего окна */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+        }
+        .modal-content {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            max-width: 600px;
+            width: 90%;
+            text-align: center;
+        }
+        .close-modal {
+            cursor: pointer;
+            color: red;
+            font-size: 20px;
+            float: right;
+        }
+        .video-container video {
+            width: 100%;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+    <nav class="nav">
+    <div class="nav-links">
+        <a href="../index.html">Категориялар</a>
+        <a href="/map">Карта</a>
+        <a href="/quiz">Жаттығу</a>
+        <a href="/forum">Форум</a>
+    </div>
+    <div class="search-box">
+        <input type="text" placeholder="бірдеңе теріңіз" oninput="filterCategories()">
+        <button>іздеу</button>
+    </div>
+    <div class="auth-links">
+        <a href="/login" class="auth-btn">Профиль</a>
+        <!--<a href="/signup" class="sign-btn">Зарегистрироваться</a>-->
+    </div>
+</nav>
+
+    <div class="main-content">
+        <h1>Етістіктер</h1>
+        <div class="video-grid">
+            <div class="video-item" data-video="https://storage.googleapis.com/kazsign/glagoly/kydyru.MOV" data-description="Қыдыру">
+                <img src="https://storage.googleapis.com/kazsign/glagoly/kydyru.png" alt="letterA">
+                <div class="word">Қыдыру</div>
+            </div>
+            <div class="video-item" data-video="https://storage.googleapis.com/kazsign/glagoly/mogu.MOV" data-description="Істей алу">
+                <img src="https://storage.googleapis.com/kazsign/glagoly/mogu.png" alt="letterA">
+                <div class="word">Істей алу</div>
+            </div>
+            <div class="video-item" data-video="https://storage.googleapis.com/kazsign/glagoly/perepisat.MOV" data-description="Қайтадан жазу">
+                <img src="https://storage.googleapis.com/kazsign/glagoly/perepisat.png" alt="letterA">
+                <div class="word">Қайтадан жазу</div>
+            </div>
+            <div class="video-item" data-video="https://storage.googleapis.com/kazsign/glagoly/ne%20mogu.MOV" data-description="Істей алмау">
+                <img src="https://storage.googleapis.com/kazsign/glagoly/ne%20mogu.png" alt="letterA">
+                <div class="word">Істей алмау</div>
+            </div>
+            <div class="video-item" data-video="https://storage.googleapis.com/kazsign/glagoly/tyndau.MOV" data-description="Тыңдау">
+                <img src="https://storage.googleapis.com/kazsign/glagoly/tyndau.png" alt="letterA">
+                <div class="word">Тыңдау</div>
+            </div>
+            <div class="video-item" data-video="https://storage.googleapis.com/kazsign/glagoly/karau.MOV" data-description="Қарау">
+                <img src="https://storage.googleapis.com/kazsign/glagoly/karau.png" alt="letterA">
+                <div class="word">Қарау</div>
+            </div>
+            <div class="video-item" data-video="https://storage.googleapis.com/kazsign/glagoly/tury.MOV" data-description="Тұру">
+                <img src="https://storage.googleapis.com/kazsign/glagoly/tury.png" alt="letterA">
+                <div class="word">Тұру</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Всплывающее окно -->
+    <div class="modal" id="videoModal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeModal()">×</span>
+            <div class="video-container">
+                <video id="modalVideo" controls>
+                    <source src="" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+                <div>
+                    <label for="speedControl">Speed:</label>
+                    <select id="speedControl" onchange="changeSpeed()">
+                        <option value="0.25">0.25x</option>
+                        <option value="0.5">0.5</option>
+                        <option value="1" selected>1x</option>
+                        <option value="1.5">1.5x</option>
+                    </select>
+                </div>
+            </div>
+            <p id="videoDescription"></p>
+        </div>
+    </div>
+    <script>
+        // Получаем элементы поиска и все видео-элементы
+        const searchInput = document.querySelector('.search-box input');
+        const videoItems = document.querySelectorAll('.video-item');
+    
+        // Функция для фильтрации элементов
+        function filterVideos() {
+            const query = searchInput.value.toLowerCase();
+            videoItems.forEach(item => {
+                const word = item.querySelector('.word').textContent.toLowerCase();
+                if (word.includes(query)) {
+                    item.style.display = 'block';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        }
+    
+        // Добавляем обработчик события ввода
+        searchInput.addEventListener('input', filterVideos);
+    </script>
+    
+    <script>
+        // Открытие всплывающего окна с видео
+        document.querySelectorAll('.video-item').forEach(item => {
+            item.addEventListener('click', function() {
+                const videoSrc = this.getAttribute('data-video');
+                const description = this.getAttribute('data-description');
+                const modalVideo = document.getElementById('modalVideo');
+                const videoDescription = document.getElementById('videoDescription');
+
+                modalVideo.src = videoSrc;
+                videoDescription.textContent = description;
+                document.getElementById('videoModal').style.display = 'flex';
+            });
+        });
+
+        // Закрытие всплывающего окна
+        function closeModal() {
+            const modalVideo = document.getElementById('modalVideo');
+            modalVideo.pause();
+            modalVideo.currentTime = 0;
+            document.getElementById('videoModal').style.display = 'none';
+        }
+
+        // Изменение скорости видео
+        function changeSpeed() {
+            const speed = document.getElementById('speedControl').value;
+            document.getElementById('modalVideo').playbackRate = speed;
+        }
+    </script>
+</body>
+</html>

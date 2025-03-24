@@ -1,0 +1,169 @@
+<!--<form action="/signup">
+  <h2>Login</h2>
+  <label for="email">Email</label>
+  <input type="text" name="email"  />
+  <div class="email error"></div>
+  <label for="password">Password</label>
+  <input type="password" name="password"  />
+  <div class="password error"></div>
+  <button>login</button>
+</form>
+-->
+<%- include('partials/navbar'); -%>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" href="../public/logo-transparent.png" type="image/x-icon">
+<style>
+     /* Стили формы входа */
+     body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #ecebd7;
+}
+    .login-container {
+      max-width: 480px;
+      margin: 2rem auto;
+      padding: 2.5rem;
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    }
+
+    .login-container h2 {
+      color: #7ac47a;
+      text-align: center;
+      margin-bottom: 2rem;
+      font-size: 1.8rem;
+      font-weight: 600;
+    }
+
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 0.5rem;
+      color: #555;
+      font-weight: 500;
+    }
+
+    .form-group input {
+      width: 100%;
+      padding: 0.8rem;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      font-size: 1rem;
+      transition: border 0.3s;
+    }
+
+    .form-group input:focus {
+      outline: none;
+      border-color: #7ac47a;
+    }
+
+    .error {
+      color: #e74c3c;
+      font-size: 0.9rem;
+      margin-top: 0.3rem;
+      height: 1.2rem;
+    }
+
+    button[type="submit"] {
+      width: 100%;
+      padding: 1rem;
+      background-color: #7ac47a;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      font-size: 1rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    button[type="submit"]:hover {
+      background-color: #68b068;
+    }
+
+    .signup-link {
+      text-align: center;
+      margin-top: 1.5rem;
+      color: #555;
+    }
+
+    .signup-link a {
+      color: #7ac47a;
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    .signup-link a:hover {
+      text-decoration: underline;
+    }
+</style>
+<body>
+  <div class="login-container">
+    <h2>Кіру</h2>
+    <form action="/signup">
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input type="text" name="email" id="email" />
+        <div class="email error"></div>
+      </div>
+      
+      <div class="form-group">
+        <label for="password">Құпия сөз</label>
+        <input type="password" name="password" id="password" />
+        <div class="password error"></div>
+      </div>
+      
+      <button type="submit">Кіру</button>
+      
+      <div class="signup-link">
+        Тіркелген жоқсыз ба? <a href="/signup">Тіркелу</a>
+      </div>
+    </form>
+  </div>
+
+
+<script>
+  const form = document.querySelector('form');
+  const emailError = document.querySelector('.email.error');
+  const passwordError = document.querySelector('.password.error');
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    // reset errors
+    emailError.textContent = '';
+    passwordError.textContent = '';
+
+    // get values
+    const email = form.email.value;
+    const password = form.password.value;
+
+    try {
+      const res = await fetch('/login', { 
+        method: 'POST', 
+        body: JSON.stringify({ email, password }),
+        headers: {'Content-Type': 'application/json'}
+      });
+      const data = await res.json();
+      console.log(data);
+      if (data.errors) {
+        emailError.textContent = data.errors.email;
+        passwordError.textContent = data.errors.password;
+      }
+      if (data.user) {
+        location.assign('/profile');
+      }
+
+    }
+    catch (err) {
+      console.log(err);
+    }
+  });
+</script>
+
+</body>

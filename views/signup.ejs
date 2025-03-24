@@ -1,0 +1,205 @@
+<%- include('partials/navbar'); -%>
+<head>
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <link rel="icon" href="../public/logo-transparent.png" type="image/x-icon">
+</head>
+
+<!--<form action="/signup">
+  <h2>Sign up</h2>
+  <label for="email">Email</label>
+  <input type="text" name="email" required />
+  <div class="email error"></div>
+  <label for="password">Password</label>
+  <input type="password" name="password" required />
+  <div class="password error"></div>
+  <button>Sign up</button>
+</form>
+-->
+ <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Регистрация</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Arial', sans-serif;
+    }
+
+    body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #ecebd7;
+}
+
+    /* Контейнер формы */
+    .auth-container {
+      max-width: 480px;
+      margin: 2rem auto;
+      padding: 2.5rem;
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    }
+
+    /* Заголовок формы */
+    .auth-title {
+      color: #7ac47a;
+      text-align: center;
+      margin-bottom: 2rem;
+      font-size: 1.8rem;
+      font-weight: 600;
+    }
+
+    /* Группы полей формы */
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 0.5rem;
+      color: #555;
+      font-weight: 500;
+      font-size: 0.95rem;
+    }
+
+    .form-group input {
+      width: 100%;
+      padding: 0.8rem 1rem;
+      border: 1px solid #e0e0e0;
+      border-radius: 8px;
+      font-size: 1rem;
+      transition: all 0.3s ease;
+    }
+
+    .form-group input:focus {
+      outline: none;
+      border-color: #7ac47a;
+      box-shadow: 0 0 0 3px rgba(122, 196, 122, 0.2);
+    }
+
+    /* Сообщения об ошибках */
+    .error {
+      color: #e74c3c;
+      font-size: 0.85rem;
+      margin-top: 0.3rem;
+      min-height: 1.2rem;
+    }
+
+    /* Кнопка отправки */
+    .authh-btn {
+      width: 100%;
+      padding: 1rem;
+      background-color: #7ac47a;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background-color 0.3s;
+      margin-top: 0.5rem;
+    }
+
+    .authh-btn:hover {
+      background-color: #68b068;
+    }
+
+    /* Ссылка на вход */
+    .login-link {
+      text-align: center;
+      margin-top: 1.5rem;
+      color: #666;
+      font-size: 0.95rem;
+    }
+
+    .login-link a {
+      color: #7ac47a;
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    .login-link a:hover {
+      text-decoration: underline;
+    }
+
+    /* Адаптивность */
+    @media (max-width: 576px) {
+      .auth-container {
+        margin: 1rem;
+        padding: 1.5rem;
+      }
+      
+      .auth-title {
+        font-size: 1.5rem;
+      }
+    }
+  </style>
+  <body>
+  <div class="auth-container">
+    <h2 class="auth-title">Тіркелу</h2>
+    
+    <form action="/signup">
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input type="email" name="email" id="email" required placeholder="Поштаңызды енгізіңіз" />
+        <div class="email error"></div>
+      </div>
+      
+      <div class="form-group">
+        <label for="password">Құпия сөз</label>
+        <input type="password" name="password" id="password" required placeholder="Құпия сөз жасаңыз" />
+        <div class="password error"></div>
+      </div>
+      
+      <button type="submit" class="authh-btn">Тіркелу</button>
+      
+      <div class="login-link">
+        Тіркелгенсіз бе? <a href="/login">Кіру</a>
+      </div>
+    </form>
+  </div>
+
+<script>
+  const form = document.querySelector('form');
+  const emailError = document.querySelector('.email.error');
+  const passwordError = document.querySelector('.password.error');
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    // reset errors
+    emailError.textContent = '';
+    passwordError.textContent = '';
+
+    // get values
+    const email = form.email.value;
+    const password = form.password.value;
+
+    try {
+      const res = await fetch('/signup', { 
+        method: 'POST', 
+        body: JSON.stringify({ email, password }),
+        headers: {'Content-Type': 'application/json'}
+      });
+      const data = await res.json();
+      console.log(data);
+      if (data.errors) {
+        emailError.textContent = data.errors.email;
+        passwordError.textContent = data.errors.password;
+      }
+      if (data.user) {
+        location.assign('/profile');
+      }
+
+    }
+    catch (err) {
+      console.log(err);
+    }
+
+  });
+</script>
+
+</body>

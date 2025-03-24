@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="kk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="logo-transparent.png" type="image/x-icon">
+    <title>Kazakh Sign Language</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class=nav-container>
+    <nav class="nav">
+        <div class="nav-links">
+            <a href="/">Категориялар</a>
+            <a href="/map">Карта</a>
+            <a href="/quiz">Жаттығу</a>
+            <a href="/forum">Форум</a>
+        </div>
+        <div class="search-box">
+            <input type="text" placeholder="бірдеңе теріңіз" oninput="filterCategories()">
+            <button>іздеу</button>
+        </div>
+        <div class="auth-links">
+            <a href="/login" class="auth-btn">Профиль</a>
+        </div>
+    </nav>
+</div>
+
+
+    <div class="main-content">
+        <section id="categories">
+            <h1>Категориялар</h1>
+            <div class="category-grid">
+                <a class="category-card" href="category/alphabet.html">
+                    <h2>Әліппе</h2>
+                    <p>Әріптер жинағы.</p>
+                </a>
+                <a class="category-card" href="category/city.html">
+                    <h2>Қалалар</h2>
+                    <p>Тұру орындарының атаулары.</p>
+                </a>
+                <a class="category-card" href="category/country.html">
+                    <h2>Елдер</h2>
+                    <p>Мемлекеттердің атаулары.</p>
+                </a>
+                <!--<a class="category-card" href="category/prof.html">
+                    <h2>Мамандықтар</h2>
+                    <p>Жұмыс түрлері.</p>
+                </a>-->
+                <a class="category-card" href="category/culture.html">
+                    <h2>Мәдениет</h2>
+                    <p>Мәдениет орталықтары.</p>
+                </a>
+                <a class="category-card" href="category/numbers.html">
+                    <h2>Сандар</h2>
+                    <p>Математикалық сандар мен амалдар.</p>
+                </a>
+                <a class="category-card" href="category/verbs.html">
+                    <h2>Етістіктер</h2>
+                    <p>Іс-қимыл сөздері.</p>
+                </a>
+                <a class="category-card" href="category/sport.html">
+                    <h2>Спорт</h2>
+                    <p>Спорт түрлері.</p>
+                </a>
+                <!--<a class="category-card" href="category/school.html">
+                    <h2>Мектеп</h2>
+                    <p>Білім туралы сөздер.</p>
+                </a>
+                <a class="category-card" href="category/mesta.html">
+                    <h2>Локациялар</h2>
+                    <p>Орын атаулары.</p>
+                </a>
+                <a class="category-card" href="category/transport.html">
+                    <h2>Транспорт</h2>
+                    <p>Қозғалыс тәсілдері.</p>
+                </a>-->
+            </div>
+        </section>
+    </div>
+    <script src="js/main.js"></script>
+    <script>
+        const searchInput = document.querySelector('.search-box input');
+        const categoryCards = document.querySelectorAll('.category-card');
+        
+        // Функция для фильтрации категорий
+        function filterCategories() {
+            const query = searchInput.value.toLowerCase();
+            categoryCards.forEach(card => {
+                const title = card.querySelector('h2').textContent.toLowerCase();
+                if (title.includes(query)) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+        
+
+        searchInput.addEventListener('input', filterCategories);
+        
+    </script>
+</body>
+</html>

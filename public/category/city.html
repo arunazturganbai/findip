@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="kk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="../logo-transparent.png" type="image/x-icon">
+    <title>Әліппе - Kazakh Sign Language</title>
+    <link rel="stylesheet" href="../styles.css">
+
+    <style>
+        /* Основные стили */
+        .video-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 20px;
+        }
+        .video-item {
+            position: relative;
+            cursor: pointer;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            overflow: hidden;
+            text-align: center;
+        }
+        .video-item img {
+            width: 100%;
+            display: block;
+        }
+        .video-item .word {
+            padding: 10px;
+            background-color: #fff;
+        }
+
+        /* Стили для всплывающего окна */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+        }
+        .modal-content {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            max-width: 600px;
+            width: 90%;
+            text-align: center;
+        }
+        .close-modal {
+            cursor: pointer;
+            color: red;
+            font-size: 20px;
+            float: right;
+        }
+        .video-container video {
+            width: 100%;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+   <nav class="nav">
+    <div class="nav-links">
+        <a href="../index.html">Категориялар</a>
+        <a href="/map">Карта</a>
+        <a href="/quiz">Жаттығу</a>
+        <a href="/forum">Форум</a>
+    </div>
+    <div class="search-box">
+        <input type="text" placeholder="бірдеңе теріңіз" oninput="filterCategories()">
+        <button>іздеу</button>
+    </div>
+    <div class="auth-links">
+        <a href="/login" class="auth-btn">Профиль</a>
+        <!--<a href="/signup" class="sign-btn">Зарегистрироваться</a>-->
+    </div>
+</nav>
+
+    <div class="main-content">
+        <h1>Қалалар</h1>
+        <div class="video-grid">
+            <div class="video-item" data-video="https://storage.cloud.google.com/kazsign/city/%D0%90%D0%BA%D1%82%D0%BE%D0%B1%D0%B5.MOV?authuser=1" data-description="Ақтөбе қаласы">
+                <img src="https://storage.cloud.google.com/kazsign/city/aktobe.png?authuser=1" alt="letterA">
+                <div class="word">Ақтөбе</div>
+            </div>
+            <div class="video-item" data-video="https://storage.cloud.google.com/kazsign/city/%D0%96%D0%B5%D0%B7%D0%BA%D0%B0%D0%B7%D0%B3%D0%B0%D0%BD.MOV?authuser=1" data-description="Жезқазған қаласы">
+                <img src="https://storage.cloud.google.com/kazsign/city/zhezkazgan.png?authuser=1" alt="letterA">
+                <div class="word">Жезқазған</div>
+                
+            </div>
+            <div class="video-item" data-video="https://storage.cloud.google.com/kazsign/city/%D0%9E%D1%80%D0%B0%D0%BB.MOV?authuser=1" data-description="Орал қаласы">
+                <img src="https://storage.cloud.google.com/kazsign/city/oral.png?authuser=1" alt="letterA">
+                <div class="word">Орал</div>
+            </div>
+            <div class="video-item" data-video="https://storage.cloud.google.com/kazsign/city/%D0%9F%D0%B5%D1%82%D1%80%D0%BE%D0%BF%D0%B0%D0%B2%D0%BB%D0%BE%D0%B2%D1%81%D0%BA.MOV?authuser=1" data-description="Петропавлск қаласы">
+                <img src="https://storage.cloud.google.com/kazsign/city/petropavlsk.png?authuser=1" alt="letterA">
+                <div class="word">Петропавлск</div>
+            </div>
+            <div class="video-item" data-video="https://storage.cloud.google.com/kazsign/city/%D0%90%D1%80%D0%BA%D0%B0%D0%BB%D1%8B%D0%BA.MOV?authuser=1" data-description="Арқалық қаласы">
+                <img src="https://storage.cloud.google.com/kazsign/city/arkalyk.png?authuser=1" alt="letterA">
+                <div class="word">Арқалық</div>
+            </div>
+            <div class="video-item" data-video="https://storage.cloud.google.com/kazsign/city/%D0%90%D1%82%D1%8B%D1%80%D0%B0%D1%83.MOV?authuser=1" data-description="Атырау қаласы">
+                <img src="https://storage.cloud.google.com/kazsign/city/atyrau.png?authuser=1" alt="letterA">
+                <div class="word">Атырау</div>
+            </div>
+            <div class="video-item" data-video="https://storage.cloud.google.com/kazsign/city/%D0%91%D0%B0%D0%BA%D1%83.MOV?authuser=1" data-description="Баку қаласы">
+                <img src="https://storage.cloud.google.com/kazsign/city/baru.png?authuser=1" alt="letterA">
+                <div class="word">Баку</div>
+            </div>
+            <div class="video-item" data-video="https://storage.cloud.google.com/kazsign/city/%D0%AD%D0%BA%D0%B8%D0%B1%D0%B0%D1%81%D1%82%D1%83%D0%B7.MOV?authuser=1" data-description="Екібастұз қаласы">
+                <img src="https://storage.cloud.google.com/kazsign/city/ekibastuz.png?authuser=1" alt="letterA">
+                <div class="word">Екібастұз</div>
+            </div>
+            <div class="video-item" data-video="https://storage.cloud.google.com/kazsign/city/%D0%9A%D0%B0%D1%80%D0%B0%D0%B3%D0%B0%D0%BD%D0%B4%D1%8B.MOV?authuser=1" data-description="Қарағанды қаласы">
+                <img src="https://storage.cloud.google.com/kazsign/city/karaganda.png?authuser=1" alt="letterA">
+                <div class="word">Қарағанды</div>
+            </div>
+            <div class="video-item" data-video="https://storage.cloud.google.com/kazsign/city/%D0%9A%D0%BE%D0%BA%D1%88%D0%B5%D1%82%D0%B0%D1%83.MOV?authuser=1" data-description="Көкшетау қаласы">
+                <img src="https://storage.cloud.google.com/kazsign/city/kokteshau.png?authuser=1" alt="letterA">
+                <div class="word">Көкшетау</div>
+            </div>
+            <div class="video-item" data-video="https://storage.cloud.google.com/kazsign/city/%D0%9A%D0%BE%D1%81%D1%82%D0%B0%D0%BD%D0%B0%D0%B9.MOV?authuser=1" data-description="Қостанай қаласы">
+                <img src="https://storage.cloud.google.com/kazsign/city/kostanai.png?authuser=1" alt="letterA">
+                <div class="word">Қостанай</div>
+            </div>
+            <div class="video-item" data-video="https://storage.cloud.google.com/kazsign/city/%D0%9A%D1%8B%D0%B7%D1%8B%D0%BB%D0%BE%D1%80%D0%B4%D0%B0.MOV?authuser=1" data-description="Қызылорда қаласы">
+                <img src="https://storage.cloud.google.com/kazsign/city/kyzylorda.png?authuser=1" alt="letterA">
+                <div class="word">Қызылорда</div>
+            </div>
+            <div class="video-item" data-video="https://storage.cloud.google.com/kazsign/city/%D0%9E%D1%81%D0%BA%D0%B5%D0%BC%D0%B5%D0%BD.MOV?authuser=1" data-description="Өскемен қаласы">
+                <img src="https://storage.cloud.google.com/kazsign/city/oskemen.png?authuser=1" alt="letterA">
+                <div class="word">Өскемен</div>
+            </div>
+            <div class="video-item" data-video="https://storage.cloud.google.com/kazsign/city/%D0%9F%D0%B0%D0%B2%D0%BB%D0%BE%D0%B4%D0%B0%D1%80.MOV?authuser=1" data-description="Павлодар қаласы">
+                <img src="https://storage.cloud.google.com/kazsign/city/pavlodar.png?authuser=1" alt="letterA">
+                <div class="word">Павлодар</div>
+            </div>
+            <div class="video-item" data-video="https://storage.cloud.google.com/kazsign/city/%D0%A1%D0%B5%D0%BC%D0%B5%D0%B9.MOV?authuser=1" data-description="Семей қаласы">
+                <img src="https://storage.cloud.google.com/kazsign/city/semei.png?authuser=1" alt="letterA">
+                <div class="word">Семей</div>
+            </div>
+            <div class="video-item" data-video="https://storage.cloud.google.com/kazsign/city/%D0%A8%D1%8B%D0%BC%D0%BA%D0%B5%D0%BD%D1%82.MOV?authuser=1" data-description="Шымкент қаласы">
+                <img src="https://storage.cloud.google.com/kazsign/city/shymkent.png?authuser=1" alt="letterA">
+                <div class="word">Шымкент</div>
+            </div>
+            <div class="video-item" data-video="https://storage.cloud.google.com/kazsign/city/%D0%A1%D1%82%D0%B5%D0%BF%D0%BD%D0%BE%D0%B3%D0%BE%D1%80%D1%81%D0%BA.MOV?authuser=1" data-description="Степногорск қаласы">
+                <img src="https://storage.cloud.google.com/kazsign/city/stepnogorsk.png?authuser=1" alt="letterA">
+                <div class="word">Степногорск</div>
+            </div>
+            <div class="video-item" data-video="https://storage.cloud.google.com/kazsign/city/%D0%A2%D0%B0%D0%BB%D0%B4%D1%8B%D0%BA%D0%BE%D1%80%D0%B3%D0%B0%D0%BD.MOV?authuser=1" data-description="Талдықорған қаласы">
+                <img src="https://storage.cloud.google.com/kazsign/city/taldykorgan.png?authuser=1" alt="letterA">
+                <div class="word">Талдықорған</div>
+            </div>
+            <div class="video-item" data-video="https://storage.cloud.google.com/kz-sign-language-assets/city/taraz.mov" data-description="Тараз қаласы">
+                <img src="https://storage.cloud.google.com/kazsign/city/taraz.png?authuser=1" alt="letterA">
+                <div class="word">Тараз</div>
+            </div>
+            <div class="video-item" data-video="https://storage.cloud.google.com/kazsign/city/%D0%A2%D0%B0%D1%80%D0%B0%D0%B7.MOV?authuser=1" data-description="Ташкент қаласы">
+                <img src="https://storage.cloud.google.com/kazsign/city/tashkent.png?authuser=1" alt="letterA">
+                <div class="word">Ташкент</div>
+            </div>
+            <div class="video-item" data-video="https://storage.cloud.google.com/kazsign/city/%D0%90%D0%BB%D0%BC%D0%B0%D1%82%D1%8B.MOV?authuser=1" data-description="Түркістан қаласы">
+                <img src="https://storage.cloud.google.com/kazsign/city/almaty.png?authuser=1" alt="letterA">
+                <div class="word">Алматы</div>
+            </div>
+            <div class="video-item" data-video="https://storage.cloud.google.com/kazsign/city/%D0%90%D1%81%D1%82%D0%B0%D0%BD%D0%B0.MOV?authuser=1" data-description="Түркістан қаласы">
+                <img src="https://storage.cloud.google.com/kazsign/city/astana.png?authuser=1" alt="letterA">
+                <div class="word">Астана</div>
+            </div>
+    </div>
+    </div>
+
+    <!-- Всплывающее окно -->
+    <div class="modal" id="videoModal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeModal()">×</span>
+            <div class="video-container">
+                <video id="modalVideo" controls>
+                    <source src="" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+                <div>
+                    <label for="speedControl">Speed:</label>
+                    <select id="speedControl" onchange="changeSpeed()">
+                        <option value="0.25">0.25x</option>
+                        <option value="0.5">0.5</option>
+                        <option value="1" selected>1x</option>
+                        <option value="1.5">1.5x</option>
+                    </select>
+                </div>
+            </div>
+            <p id="videoDescription"></p>
+        </div>
+    </div>
+    <script>
+        // Получаем элементы поиска и все видео-элементы
+        const searchInput = document.querySelector('.search-box input');
+        const videoItems = document.querySelectorAll('.video-item');
+    
+        // Функция для фильтрации элементов
+        function filterVideos() {
+            const query = searchInput.value.toLowerCase();
+            videoItems.forEach(item => {
+                const word = item.querySelector('.word').textContent.toLowerCase();
+                if (word.includes(query)) {
+                    item.style.display = 'block';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        }
+    
+        // Добавляем обработчик события ввода
+        searchInput.addEventListener('input', filterVideos);
+    </script>
+    
+    <script>
+        // Открытие всплывающего окна с видео
+        document.querySelectorAll('.video-item').forEach(item => {
+            item.addEventListener('click', function() {
+                const videoSrc = this.getAttribute('data-video');
+                const description = this.getAttribute('data-description');
+                const modalVideo = document.getElementById('modalVideo');
+                const videoDescription = document.getElementById('videoDescription');
+
+                modalVideo.src = videoSrc;
+                videoDescription.textContent = description;
+                document.getElementById('videoModal').style.display = 'flex';
+            });
+        });
+
+        // Закрытие всплывающего окна
+        function closeModal() {
+            const modalVideo = document.getElementById('modalVideo');
+            modalVideo.pause();
+            modalVideo.currentTime = 0;
+            document.getElementById('videoModal').style.display = 'none';
+        }
+
+        // Изменение скорости видео
+        function changeSpeed() {
+            const speed = document.getElementById('speedControl').value;
+            document.getElementById('modalVideo').playbackRate = speed;
+        }
+    </script>
+</body>
+</html>

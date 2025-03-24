@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="kk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="../logo-transparent.png" type="image/x-icon">
+    <title>Әліппе - Kazakh Sign Language</title>
+    <link rel="stylesheet" href="../styles.css">
+
+    <style>
+        /* Основные стили */
+        .video-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 20px;
+        }
+        .video-item {
+            position: relative;
+            cursor: pointer;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            overflow: hidden;
+            text-align: center;
+        }
+        .video-item img {
+            width: 100%;
+            display: block;
+        }
+        .video-item .word {
+            padding: 10px;
+            background-color: #fff;
+        }
+
+        /* Стили для всплывающего окна */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+        }
+        .modal-content {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            max-width: 600px;
+            width: 90%;
+            text-align: center;
+        }
+        .close-modal {
+            cursor: pointer;
+            color: red;
+            font-size: 20px;
+            float: right;
+        }
+        .video-container video {
+            width: 100%;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+    <nav class="nav">
+    <div class="nav-links">
+        <a href="../index.html">Категориялар</a>
+        <a href="/map">Карта</a>
+        <a href="/quiz">Жаттығу</a>
+        <a href="/forum">Форум</a>
+    </div>
+    <div class="search-box">
+        <input type="text" placeholder="бірдеңе теріңіз" oninput="filterCategories()">
+        <button>іздеу</button>
+    </div>
+    <div class="auth-links">
+        <a href="/login" class="auth-btn">Профиль</a>
+        <!--<a href="/signup" class="sign-btn">Зарегистрироваться</a>-->
+    </div>
+</nav>
+    <div class="main-content">
+        <h1>Мемлекеттер</h1>
+        <div class="video-grid">
+            <div class="video-item" data-video="https://storage.googleapis.com/kazsign/country/africa.MOV" data-description="Африка мемлекеті">
+                <img src="https://storage.googleapis.com/kazsign/country/countryimg/america.png" alt="letterA">
+                <div class="word">Африка</div>
+            </div>
+            <div class="video-item" data-video="https://storage.googleapis.com/kazsign/country/america.MOV" data-description="Америка">
+                <img src="https://storage.googleapis.com/kazsign/country/countryimg/america.png" alt="letterA">
+                <div class="word">Америка</div>
+            </div>
+            <div class="video-item" data-video="https://storage.googleapis.com/kazsign/country/argentina.MOV" data-description="Аргентина мемлекеті">
+                <img src="https://storage.googleapis.com/kazsign/country/countryimg/argentina.png" alt="letterA">
+                <div class="word">Аргентина</div>
+            </div>
+            <div class="video-item" data-video="https://storage.googleapis.com/kazsign/country/armenia.MOV" data-description="Азия">
+                <img src="https://storage.googleapis.com/kazsign/country/countryimg/asia.png" alt="letterA">
+                <div class="word">Азия</div>
+            </div>
+            <div class="video-item" data-video="https://storage.googleapis.com/kazsign/country/australia.MOV" data-description="Аустралия мемлекеті">
+                <img src="https://storage.googleapis.com/kazsign/country/countryimg/australia.png" alt="letterA">
+                <div class="word">Аустралия</div>
+            </div>
+            <div class="video-item" data-video="https://storage.googleapis.com/kazsign/country/austria.MOV" data-description="Аустрия мемлекеті">
+                <img src="https://storage.googleapis.com/kazsign/country/countryimg/austria.png" alt="letterA">
+                <div class="word">Аустрия</div>
+            </div>
+            <div class="video-item" data-video="https://storage.googleapis.com/kazsign/country/azerbijam.MOV" data-description="Әзербайжан мемлекеті">
+                <img src="https://storage.googleapis.com/kazsign/country/countryimg/azerbijan.png" alt="letterA">
+                <div class="word">Әзербайжан</div>
+            </div>
+            <div class="video-item" data-video="https://storage.googleapis.com/kazsign/country/belarus.MOV" data-description="Белорусия мемлекеті">
+                <img src="https://storage.googleapis.com/kazsign/country/countryimg/belarus.png" alt="letterA">
+                <div class="word">Белорусия</div>
+            </div>
+            <div class="video-item" data-video="https://storage.googleapis.com/kazsign/country/bulgary.MOV" data-description="Болгария мемлекеті">
+                <img src="https://storage.googleapis.com/kazsign/country/countryimg/bulgary.png" alt="letterA">
+                <div class="word">Болгария</div>
+            </div>
+            <div class="video-item" data-video="https://storage.googleapis.com/kazsign/country/cheh.MOV" data-description="Чехия мемлекеті">
+                <img src="https://storage.googleapis.com/kazsign/country/countryimg/cheh.png" alt="letterA">
+                <div class="word">Чехия</div>
+            </div>
+            <div class="video-item" data-video="https://storage.googleapis.com/kazsign/country/china.MOV" data-description="Қытай мемлекеті">
+                <img src="https://storage.googleapis.com/kazsign/country/countryimg/china.png" alt="letterA">
+                <div class="word">Қытай</div>
+            </div>
+            <div class="video-item" data-video="https://storage.googleapis.com/kazsign/country/egypt.MOV" data-description="Мысыр мемлекеті">
+                <img src="https://storage.googleapis.com/kazsign/country/countryimg/egypt.png" alt="letterA">
+                <div class="word">Мысыр</div>
+            </div>
+            <div class="video-item" data-video="https://storage.googleapis.com/kazsign/country/europe.MOV" data-description="Еуропа">
+                <img src="https://storage.googleapis.com/kazsign/country/countryimg/europe.png" alt="letterA">
+                <div class="word">Еуропа</div>
+            </div>
+            <div class="video-item" data-video="https://storage.googleapis.com/kazsign/country/finland.MOV" data-description="Финляндия мемлекеті">
+                <img src="https://storage.googleapis.com/kazsign/country/countryimg/finland.png" alt="letterA">
+                <div class="word">Финляндия</div>
+            </div>
+            <div class="video-item" data-video="https://storage.googleapis.com/kazsign/country/france.MOV" data-description="Франция мемлекеті">
+                <img src="https://storage.googleapis.com/kazsign/country/countryimg/france.png" alt="letterA">
+                <div class="word">Франция</div>
+            </div>
+            <div class="video-item" data-video="https://storage.googleapis.com/kazsign/country/germany.MOV" data-description="Германия мемлекеті">
+                <img src="https://storage.googleapis.com/kazsign/country/countryimg/germany.png" alt="letterA">
+                <div class="word">Германия</div>
+            </div>
+            <div class="video-item" data-video="https://storage.googleapis.com/kazsign/country/gruzia.MOV" data-description="Грузия мемлекеті">
+                <img src="https://storage.googleapis.com/kazsign/country/countryimg/gruzia.png" alt="letterA">
+                <div class="word">Грузия</div>
+            </div>
+            <div class="video-item" data-video="https://storage.googleapis.com/kazsign/country/gollandia.MOV" data-description="Голландия мемлекеті">
+                <img src="https://storage.googleapis.com/kazsign/country/countryimg/gollandia.png" alt="letterA">
+                <div class="word">Голландия</div>
+            </div>
+            <div class="video-item" data-video="https://storage.googleapis.com/kazsign/country/greece.MOV" data-description="Греция мемлекеті">
+                <img src="https://storage.googleapis.com/kazsign/country/countryimg/greece.png" alt="letterA">
+                <div class="word">Греция</div>
+            </div>
+            <div class="video-item" data-video="https://storage.googleapis.com/kazsign/country/india.MOV" data-description="Үндістан мемлекеті">
+                <img src="https://storage.googleapis.com/kazsign/country/countryimg/india.png" alt="letterA">
+                <div class="word">Үндістан</div>
+            </div>
+            <div class="video-item" data-video="https://storage.googleapis.com/kazsign/country/iordania.MOV" data-description="Иордания мемлекеті">
+                <img src="https://storage.googleapis.com/kazsign/country/countryimg/iordanya.png" alt="letterA">
+                <div class="word">Иордания</div>
+            </div>
+            <div class="video-item" data-video="https://storage.googleapis.com/kazsign/country/kazakhstan.MOV" data-description="">
+                <img src="https://storage.googleapis.com/kazsign/country/countryimg/kazakhstan.png" alt="letterA">
+                <div class="word">Қазақстан</div>
+            </div>
+            <div class="video-item" data-video="https://storage.googleapis.com/kazsign/country/estonia.MOV" data-description="Истония мемлекеті">
+                <img src="https://storage.googleapis.com/kazsign/country/countryimg/estonia.png" alt="letterA">
+                <div class="word">Эстония</div>
+            </div>
+            <div class="video-item" data-video="https://storage.googleapis.com/kazsign/country/italy.MOV" data-description="Италия мемлекеті">
+                <img src="https://storage.googleapis.com/kazsign/country/countryimg/italy.png" alt="letterA">
+                <div class="word">Италия</div>
+            </div>
+            <div class="video-item" data-video="https://storage.googleapis.com/kazsign/country/izrail.MOV" data-description="Израиль мемлекеті">
+                <img src="https://storage.googleapis.com/kazsign/country/countryimg/izrail.png" alt="letterA">
+                <div class="word">Израиль</div>
+            </div>
+            <div class="video-item" data-video="https://storage.googleapis.com/kazsign/country/japan.MOV" data-description="Жапон мемлекеті">
+                <img src="https://storage.googleapis.com/kazsign/country/countryimg/japan.png" alt="letterA">
+                <div class="word">Жапон</div>
+            </div>
+            <div class="video-item" data-video="https://storage.googleapis.com/kazsign/country/korea.MOV" data-description="Корея мемлекеті">
+                <img src="https://storage.googleapis.com/kazsign/country/countryimg/korea.png" alt="letterA">
+                <div class="word">Корея</div>
+            </div>
+            <div class="video-item" data-video="https://storage.googleapis.com/kazsign/country/latvia.MOV" data-description="Лавтвия мемлекеті">
+                <img src="https://storage.googleapis.com/kazsign/country/countryimg/latvia.png" alt="letterA">
+                <div class="word">Лавтвия</div>
+            </div>
+            <div class="video-item" data-video="https://storage.googleapis.com/kazsign/country/litva.MOV" data-description="Литва мемлекеті">
+                <img src="https://storage.googleapis.com/kazsign/country/countryimg/litva.png" alt="letterA">
+                <div class="word">Литва</div>
+            </div>
+            <div class="video-item" data-video="https://storage.googleapis.com/kazsign/country/moldovia.MOV" data-description="Молдавия мемлекеті">
+                <img src="https://storage.googleapis.com/kazsign/country/countryimg/moldova.png" alt="letterA">
+                <div class="word">Молдавия</div>
+            </div>
+            <div class="video-item" data-video="https://storage.googleapis.com/kazsign/country/norway.MOV" data-description="Норвегия мемлекеті">
+                <img src="https://storage.googleapis.com/kazsign/country/countryimg/norway.png" alt="letterA">
+                <div class="word">Норвегия</div>
+            </div>
+            <div class="video-item" data-video="https://storage.googleapis.com/kazsign/country/polsha.MOV" data-description="Польша мемлекеті">
+                <img src="https://storage.googleapis.com/kazsign/country/countryimg/polsha.png" alt="letterA">
+                <div class="word">Польша</div>
+            </div>
+               <!--
+            <div class="video-item" data-video="https://storage.cloud.google.com/kz-sign-language-assets/memleket/rmenyia.mov" data-description="Армения мемлекеті">
+                <img src="https://storage.cloud.google.com/kz-sign-language-assets/img/city/shymkent.png" alt="letterA">
+                <div class="word">Армения</div>
+            </div>
+            <div class="video-item" data-video="https://storage.cloud.google.com/kz-sign-language-assets/memleket/rumynia.mov" data-description="Румыния мемлекеті">
+                <img src="https://storage.cloud.google.com/kz-sign-language-assets/img/city/arkalyk.png" alt="letterA">
+                <div class="word">Румыния</div>
+            </div>
+            <div class="video-item" data-video="https://storage.cloud.google.com/kz-sign-language-assets/memleket/russia.mov" data-description="Ресей мемлекеті">
+                <img src="https://storage.cloud.google.com/kz-sign-language-assets/img/city/semei.png" alt="letterA">
+                <div class="word">Ресей</div>
+            </div>
+            <div class="video-item" data-video="https://storage.cloud.google.com/kz-sign-language-assets/memleket/shvecya.mov" data-description="Чехия мемлекеті">
+                <img src="https://storage.cloud.google.com/kz-sign-language-assets/img/city/ekibastuz.png" alt="letterA">
+                <div class="word">Чехия</div>
+            </div>
+            <div class="video-item" data-video="https://storage.cloud.google.com/kz-sign-language-assets/memleket/sibir.mov" data-description="Сібір мемлекеті">
+                <img src="https://storage.cloud.google.com/kz-sign-language-assets/img/city/atyrau.png" alt="letterA">
+                <div class="word">Сібір</div>
+            </div>
+            <div class="video-item" data-video="https://storage.cloud.google.com/kz-sign-language-assets/memleket/Spain.mov" data-description="Испания мемлекеті">
+                <img src="https://storage.cloud.google.com/kz-sign-language-assets/img/city/karaganda.png" alt="letterA">
+                <div class="word">Испания</div>
+            </div>
+            <div class="video-item" data-video="https://storage.cloud.google.com/kz-sign-language-assets/memleket/swuetherland.mov" data-description="Швейцария мемлекеті">
+                <img src="https://storage.cloud.google.com/kz-sign-language-assets/img/city/tashkent.png" alt="letterA">
+                <div class="word">Швейцария</div>
+            </div>
+            <div class="video-item" data-video="https://storage.cloud.google.com/kz-sign-language-assets/memleket/tatarstan.mov" data-description="Татарстан">
+                <img src="https://storage.cloud.google.com/kz-sign-language-assets/img/city/aktobe.png" alt="letterA">
+                <div class="word">Татарстан</div>
+            </div>
+            <div class="video-item" data-video="https://storage.cloud.google.com/kz-sign-language-assets/memleket/Turkey.mov" data-description="Түркия мемлекеті">
+                <img src="https://storage.cloud.google.com/kz-sign-language-assets/img/city/stepnogorsk.png" alt="letterA">
+                <div class="word">Түркия</div>
+            </div>
+            <div class="video-item" data-video="https://storage.cloud.google.com/kz-sign-language-assets/memleket/ukraine.mov" data-description="Украина мемлекеті">
+                <img src="https://storage.cloud.google.com/kz-sign-language-assets/img/city/baku.png" alt="letterA">
+                <div class="word">Украина</div>
+            </div>
+            <div class="video-item" data-video="https://storage.cloud.google.com/kz-sign-language-assets/memleket/usa.mov" data-description="АҚШ">
+                <img src="https://storage.cloud.google.com/kz-sign-language-assets/img/city/arkalyk.png" alt="letterA">
+                <div class="word">АҚШ</div>
+            </div>
+            <div class="video-item" data-video="https://storage.cloud.google.com/kz-sign-language-assets/memleket/uzbekistan.mov" data-description="Өзбекістан мемлекеті">
+                <img src="https://storage.cloud.google.com/kz-sign-language-assets/img/city/ekibastuz.png" alt="letterA">
+                <div class="word">Өзбекістан</div>
+            </div>
+            <div class="video-item" data-video="https://storage.cloud.google.com/kz-sign-language-assets/memleket/vengria.mov" data-description="Венгрия мемлекеті">
+                <img src="https://storage.cloud.google.com/kz-sign-language-assets/img/city/atyrau.png" alt="letterA">
+                <div class="word">Венгрия</div>
+            </div>
+            <div class="video-item" data-video="https://storage.cloud.google.com/kz-sign-language-assets/memleket/vengryia.mov" data-description="">
+                <img src="https://storage.cloud.google.com/kz-sign-language-assets/img/city/semei.png" alt="letterA">
+                <div class="word"></div>
+            </div>
+            <div class="video-item" data-video="https://storage.cloud.google.com/kz-sign-language-assets/memleket/vietnam.mov" data-description="Вьетнам мемлекеті">
+                <img src="https://storage.cloud.google.com/kz-sign-language-assets/img/city/aktobe.png" alt="letterA">
+                <div class="word">Вьетнам</div>
+            </div>
+            <div class="video-item" data-video="https://storage.cloud.google.com/kz-sign-language-assets/memleket/yiakutyia.mov" data-description="Якутия мемлекеті">
+                <img src="https://storage.cloud.google.com/kz-sign-language-assets/img/city/karaganda.png" alt="letterA">
+                <div class="word">Якутия</div>
+            </div>
+        </div>
+    </div>
+    -->
+
+    <!-- Всплывающее окно -->
+    <div class="modal" id="videoModal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeModal()">×</span>
+            <div class="video-container">
+                <video id="modalVideo" controls>
+                    <source src="" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+                <div>
+                    <label for="speedControl">Speed:</label>
+                    <select id="speedControl" onchange="changeSpeed()">
+                        <option value="0.25">0.25x</option>
+                        <option value="0.5">0.5</option>
+                        <option value="1" selected>1x</option>
+                        <option value="1.5">1.5x</option>
+                    </select>
+                </div>
+            </div>
+            <p id="videoDescription"></p>
+        </div>
+    </div>
+    <script>
+        // Получаем элементы поиска и все видео-элементы
+        const searchInput = document.querySelector('.search-box input');
+        const videoItems = document.querySelectorAll('.video-item');
+    
+        // Функция для фильтрации элементов
+        function filterVideos() {
+            const query = searchInput.value.toLowerCase();
+            videoItems.forEach(item => {
+                const word = item.querySelector('.word').textContent.toLowerCase();
+                if (word.includes(query)) {
+                    item.style.display = 'block';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        }
+    
+        // Добавляем обработчик события ввода
+        searchInput.addEventListener('input', filterVideos);
+    </script>
+    
+    <script>
+        // Открытие всплывающего окна с видео
+        document.querySelectorAll('.video-item').forEach(item => {
+            item.addEventListener('click', function() {
+                const videoSrc = this.getAttribute('data-video');
+                const description = this.getAttribute('data-description');
+                const modalVideo = document.getElementById('modalVideo');
+                const videoDescription = document.getElementById('videoDescription');
+
+                modalVideo.src = videoSrc;
+                videoDescription.textContent = description;
+                document.getElementById('videoModal').style.display = 'flex';
+            });
+        });
+
+        // Закрытие всплывающего окна
+        function closeModal() {
+            const modalVideo = document.getElementById('modalVideo');
+            modalVideo.pause();
+            modalVideo.currentTime = 0;
+            document.getElementById('videoModal').style.display = 'none';
+        }
+
+        // Изменение скорости видео
+        function changeSpeed() {
+            const speed = document.getElementById('speedControl').value;
+            document.getElementById('modalVideo').playbackRate = speed;
+        }
+    </script>
+</body>
+</html>

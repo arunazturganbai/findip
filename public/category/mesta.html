@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="kk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="../logo-transparent.png" type="image/x-icon">
+    <title>Әліппе - Kazakh Sign Language</title>
+    <link rel="stylesheet" href="../styles.css">
+
+    <style>
+        /* Основные стили */
+        .video-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 20px;
+        }
+        .video-item {
+            position: relative;
+            cursor: pointer;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            overflow: hidden;
+            text-align: center;
+        }
+        .video-item img {
+            width: 100%;
+            display: block;
+        }
+        .video-item .word {
+            padding: 10px;
+            background-color: #fff;
+        }
+
+        /* Стили для всплывающего окна */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+        }
+        .modal-content {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            max-width: 600px;
+            width: 90%;
+            text-align: center;
+        }
+        .close-modal {
+            cursor: pointer;
+            color: red;
+            font-size: 20px;
+            float: right;
+        }
+        .video-container video {
+            width: 100%;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+   <nav class="nav">
+    <div class="nav-links">
+        <a href="../index.html">Категориялар</a>
+        <a href="/map">Карта</a>
+        <a href="/quiz">Жаттығу</a>
+        <a href="/forum">Форум</a>
+    </div>
+    <div class="search-box">
+        <input type="text" placeholder="бірдеңе теріңіз" oninput="filterCategories()">
+        <button>іздеу</button>
+    </div>
+    <div class="auth-links">
+        <a href="/login" class="auth-btn">Профиль</a>
+        <!--<a href="/signup" class="sign-btn">Зарегистрироваться</a>-->
+    </div>
+</nav>
+
+    <div class="main-content">
+        <h1>Локациялар</h1>
+        <div class="video-grid">
+            <div class="video-item" data-video="https://storage.cloud.google.com/kz-sign-language-assets/mesta/adres.mov" data-description="Мекенжай">
+                <img src="https://storage.cloud.google.com/kz-sign-language-assets/img/city/aktobe.png" alt="letterA">
+                <div class="word">Мекенжай</div>
+            </div>
+            <div class="video-item" data-video="https://storage.cloud.google.com/kz-sign-language-assets/mesta/apteka.mov" data-description="Дәрі дәрмек сататын жер">
+                <img src="https://storage.cloud.google.com/kz-sign-language-assets/img/city/arkalyk.png" alt="letterA">
+                <div class="word">Аптека</div>
+            </div>
+            <div class="video-item" data-video="https://storage.cloud.google.com/kz-sign-language-assets/mesta/bank.mov" data-description="Ақша сақталатын жер">
+                <img src="https://storage.cloud.google.com/kz-sign-language-assets/img/city/atyrau.png" alt="letterA">
+                <div class="word">Банк</div>
+            </div>
+            <div class="video-item" data-video="https://storage.cloud.google.com/kz-sign-language-assets/mesta/banyia.mov" data-description="Баня">
+                <img src="https://storage.cloud.google.com/kz-sign-language-assets/img/city/baku.png" alt="letterA">
+                <div class="word">Монша</div>
+            </div>
+            <div class="video-item" data-video="https://storage.cloud.google.com/kz-sign-language-assets/mesta/capital.mov" data-description="Мемлекеттің бас қаласы">
+                <img src="https://storage.cloud.google.com/kz-sign-language-assets/img/city/ekibastuz.png" alt="letterA">
+                <div class="word">Астана</div>
+            </div>
+            <div class="video-item" data-video="https://storage.cloud.google.com/kz-sign-language-assets/mesta/centr.mov" data-description="Қала орталығы">
+                <img src="https://storage.cloud.google.com/kz-sign-language-assets/img/city/aktobe.png" alt="letterA">
+                <div class="word">Орталық</div>
+            </div>
+            <div class="video-item" data-video="https://storage.cloud.google.com/kz-sign-language-assets/mesta/daleko.mov" data-description="Қашық жер">
+                <img src="https://storage.cloud.google.com/kz-sign-language-assets/img/city/karaganda.png" alt="letterA">
+                <div class="word">Алыс</div>
+            </div>
+            <div class="video-item" data-video="https://storage.cloud.google.com/kz-sign-language-assets/mesta/gorod.mov" data-description="Қала">
+                <img src="https://storage.cloud.google.com/kz-sign-language-assets/img/city/semei.png" alt="letterA">
+                <div class="word">Қала</div>
+            </div>
+            <div class="video-item" data-video="https://storage.cloud.google.com/kz-sign-language-assets/mesta/himchistka.mov" data-description="Бір нәрсені тазалау">
+                <img src="https://storage.cloud.google.com/kz-sign-language-assets/img/city/stepnogorsk.png" alt="letterA">
+                <div class="word">Химтазадау</div>
+            </div>
+            <div class="video-item" data-video="https://storage.cloud.google.com/kz-sign-language-assets/mesta/kino.mov" data-description="Кино">
+                <img src="https://storage.cloud.google.com/kz-sign-language-assets/img/city/aktobe.png" alt="letterA">
+                <div class="word">Кино</div>
+            </div>
+            <div class="video-item" data-video="https://storage.cloud.google.com/kz-sign-language-assets/mesta/library.mov" data-description="Кітаптар жиналған жер">
+                <img src="https://storage.cloud.google.com/kz-sign-language-assets/img/city/tashkent.png" alt="letterA">
+                <div class="word">Кітапхана</div>
+            </div>
+            <div class="video-item" data-video="https://storage.cloud.google.com/kz-sign-language-assets/mesta/magazine.mov" data-description="Түрлі өнімдер сататын жер">
+                <img src="https://storage.cloud.google.com/kz-sign-language-assets/img/city/ekibastuz.png" alt="letterA">
+                <div class="word">Дүкен</div>
+            </div>
+            <div class="video-item" data-video="https://storage.cloud.google.com/kz-sign-language-assets/mesta/mail.mov" data-description="Хат">
+                <img src="https://storage.cloud.google.com/kz-sign-language-assets/img/city/arkalyk.png" alt="letterA">
+                <div class="word">Пошта</div>
+            </div>
+            <div class="video-item" data-video="https://storage.cloud.google.com/kz-sign-language-assets/mesta/metro.mov" data-description="Жерасты поезд">
+                <img src="https://storage.cloud.google.com/kz-sign-language-assets/img/city/baku.png" alt="letterA">
+                <div class="word">Метро</div>
+            </div>
+            <div class="video-item" data-video="https://storage.cloud.google.com/kz-sign-language-assets/mesta/most.mov" data-description="Екі жерді қосатын зат">
+                <img src="https://storage.cloud.google.com/kz-sign-language-assets/img/city/aktobe.png" alt="letterA">
+                <div class="word">Көпір</div>
+            </div>
+            <div class="video-item" data-video="https://storage.cloud.google.com/kz-sign-language-assets/mesta/napravlenyie.mov" data-description="Нысан">
+                <img src="https://storage.cloud.google.com/kz-sign-language-assets/img/city/oskemen.png" alt="letterA">
+                <div class="word">Бағыт</div>
+            </div>
+            <div class="video-item" data-video="https://storage.cloud.google.com/kz-sign-language-assets/mesta/nenado.mov" data-description="Бас тарту">
+                <img src="https://storage.cloud.google.com/kz-sign-language-assets/img/city/taldykorgan.png" alt="letterA">
+                <div class="word">Керек емес</div>
+            </div>
+            <div class="video-item" data-video="https://storage.cloud.google.com/kz-sign-language-assets/mesta/ostanovka.mov" data-description="Автобустар тоқтайтын жер">
+                <img src="https://storage.cloud.google.com/kz-sign-language-assets/img/city/aktobe.png" alt="letterA">
+                <div class="word">Аялдама</div>
+            </div>
+            <div class="video-item" data-video="https://storage.cloud.google.com/kz-sign-language-assets/mesta/perehod.mov" data-description="Пешеход өтетін жер">
+                <img src="https://storage.cloud.google.com/kz-sign-language-assets/img/city/atyrau.png" alt="letterA">
+                <div class="word">Пешеход</div>
+            </div>
+            <div class="video-item" data-video="https://storage.cloud.google.com/kz-sign-language-assets/mesta/perekrestok.mov" data-description="Көше/жол қиылысуы">
+                <img src="https://storage.cloud.google.com/kz-sign-language-assets/img/city/shymkent.png" alt="letterA">
+                <div class="word">Қиылысу</div>
+            </div>
+            <div class="video-item" data-video="https://storage.cloud.google.com/kz-sign-language-assets/mesta/podzemnperehod.mov" data-description="Жерасты өтетін жол">
+                <img src="https://storage.cloud.google.com/kz-sign-language-assets/img/city/aktobe.png" alt="letterA">
+                <div class="word">Жерасты жолы</div>
+            </div>
+            <div class="video-item" data-video="https://storage.cloud.google.com/kz-sign-language-assets/mesta/police.mov" data-description="Қоғамдық тәртіпті сақтау органы">
+                <img src="https://storage.cloud.google.com/kz-sign-language-assets/img/city/karaganda.png" alt="letterA">
+                <div class="word">Полиция</div>
+            </div>
+            <div class="video-item" data-video="https://storage.cloud.google.com/kz-sign-language-assets/mesta/poliklinika.mov" data-description="Ем алатын жер">
+                <img src="https://storage.cloud.google.com/kz-sign-language-assets/img/city/baku.png" alt="letterA">
+                <div class="word">Аурухана</div>
+            </div>
+            <div class="video-item" data-video="https://storage.cloud.google.com/kz-sign-language-assets/mesta/povorod.mov" data-description="Жол бұрылысы">
+                <img src="https://storage.cloud.google.com/kz-sign-language-assets/img/city/aktobe.png" alt="letterA">
+                <div class="word">Бұрылыс</div>
+            </div>
+            <div class="video-item" data-video="https://storage.cloud.google.com/kz-sign-language-assets/mesta/prospect.mov" data-description="Үлкен көше">
+                <img src="https://storage.cloud.google.com/kz-sign-language-assets/img/city/arkalyk.png" alt="letterA">
+                <div class="word">Даңғыл</div>
+            </div>
+            <div class="video-item" data-video="https://storage.cloud.google.com/kz-sign-language-assets/mesta/rayon.mov" data-description="Қаланың кіші бөлігі">
+                <img src="https://storage.cloud.google.com/kz-sign-language-assets/img/city/ekibastuz.png" alt="letterA">
+                <div class="word">Аудан</div>
+            </div>
+            <div class="video-item" data-video="https://storage.cloud.google.com/kz-sign-language-assets/mesta/restoran.mov" data-description="Тамақ ішетін жер">
+                <img src="https://storage.cloud.google.com/kz-sign-language-assets/img/city/semei.png" alt="letterA">
+                <div class="word">Мейрамхана</div>
+            </div>
+            <div class="video-item" data-video="https://storage.cloud.google.com/kz-sign-language-assets/mesta/rynok.mov" data-description="Арзан өнімдер сататын жер">
+                <img src="https://storage.cloud.google.com/kz-sign-language-assets/img/city/atyrau.png" alt="letterA">
+                <div class="word">Базар</div>
+            </div>
+            <div class="video-item" data-video="https://storage.cloud.google.com/kz-sign-language-assets/mesta/school.mov" data-description="Оқушылар баратын жер">
+                <img src="https://storage.cloud.google.com/kz-sign-language-assets/img/city/aktobe.png" alt="letterA">
+                <div class="word">Мектеп</div>
+            </div>
+            <div class="video-item" data-video="https://storage.cloud.google.com/kz-sign-language-assets/mesta/signazbuka.mov" data-description="Ым тіліндегі азбука">
+                <img src="https://storage.cloud.google.com/kz-sign-language-assets/img/city/oskemen.png" alt="letterA">
+                <div class="word">Ым азбукасы</div>
+            </div>
+            <div class="video-item" data-video="https://storage.cloud.google.com/kz-sign-language-assets/mesta/southcapital.mov" data-description="Оңтүстік Астана">
+                <img src="https://storage.cloud.google.com/kz-sign-language-assets/img/city/tashkent.png" alt="letterA">
+                <div class="word">Оңтүстік Астана</div>
+            </div>
+            <div class="video-item" data-video="https://storage.cloud.google.com/kz-sign-language-assets/mesta/teatr(1).mov" data-description="Мәдени жер">
+                <img src="https://storage.cloud.google.com/kz-sign-language-assets/img/city/aktobe.png" alt="letterA">
+                <div class="word">Театр</div>
+            </div>
+            <div class="video-item" data-video="https://storage.cloud.google.com/kz-sign-language-assets/mesta/teatr.mov" data-description="Мәдени жер">
+                <img src="https://storage.cloud.google.com/kz-sign-language-assets/img/city/taldykorgan.png" alt="letterA">
+                <div class="word">Театр</div>
+            </div>
+            <div class="video-item" data-video="https://storage.cloud.google.com/kz-sign-language-assets/mesta/ulica.mov" data-description="Көше">
+                <img src="https://storage.cloud.google.com/kz-sign-language-assets/img/city/baku.png" alt="letterA">
+                <div class="word">Көше</div>
+            </div>
+            <div class="video-item" data-video="https://storage.cloud.google.com/kz-sign-language-assets/mesta/university.mov" data-description="Студенттер білім оқу орны">
+                <img src="https://storage.cloud.google.com/kz-sign-language-assets/img/city/shymkent.png" alt="letterA">
+                <div class="word">Университет</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Всплывающее окно -->
+    <div class="modal" id="videoModal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeModal()">×</span>
+            <div class="video-container">
+                <video id="modalVideo" controls>
+                    <source src="" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+                <div>
+                    <label for="speedControl">Speed:</label>
+                    <select id="speedControl" onchange="changeSpeed()">
+                        <option value="0.25">0.25x</option>
+                        <option value="0.5">0.5</option>
+                        <option value="1" selected>1x</option>
+                        <option value="1.5">1.5x</option>
+                    </select>
+                </div>
+            </div>
+            <p id="videoDescription"></p>
+        </div>
+    </div>
+    <script>
+        // Получаем элементы поиска и все видео-элементы
+        const searchInput = document.querySelector('.search-box input');
+        const videoItems = document.querySelectorAll('.video-item');
+    
+        // Функция для фильтрации элементов
+        function filterVideos() {
+            const query = searchInput.value.toLowerCase();
+            videoItems.forEach(item => {
+                const word = item.querySelector('.word').textContent.toLowerCase();
+                if (word.includes(query)) {
+                    item.style.display = 'block';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        }
+    
+        // Добавляем обработчик события ввода
+        searchInput.addEventListener('input', filterVideos);
+    </script>
+    
+    <script>
+        // Открытие всплывающего окна с видео
+        document.querySelectorAll('.video-item').forEach(item => {
+            item.addEventListener('click', function() {
+                const videoSrc = this.getAttribute('data-video');
+                const description = this.getAttribute('data-description');
+                const modalVideo = document.getElementById('modalVideo');
+                const videoDescription = document.getElementById('videoDescription');
+
+                modalVideo.src = videoSrc;
+                videoDescription.textContent = description;
+                document.getElementById('videoModal').style.display = 'flex';
+            });
+        });
+
+        // Закрытие всплывающего окна
+        function closeModal() {
+            const modalVideo = document.getElementById('modalVideo');
+            modalVideo.pause();
+            modalVideo.currentTime = 0;
+            document.getElementById('videoModal').style.display = 'none';
+        }
+
+        // Изменение скорости видео
+        function changeSpeed() {
+            const speed = document.getElementById('speedControl').value;
+            document.getElementById('modalVideo').playbackRate = speed;
+        }
+    </script>
+</body>
+</html>
